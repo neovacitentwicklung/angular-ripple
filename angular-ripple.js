@@ -43,7 +43,7 @@
             ripple.className = ripple.className.replace(/ ?(animate)/g, '');
 
 
-            var box = element.getBoundingClientRect();
+            var box = element[0].getBoundingClientRect();
 
             if ('angularRippleCenter' in attrs && attrs.angularRippleCenter !== 'false') {
               x = box.left + ripple.offsetWidth / 2;
