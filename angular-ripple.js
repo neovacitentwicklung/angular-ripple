@@ -42,33 +42,44 @@
             // Remove animation effect
             ripple.className = ripple.className.replace(/ ?(animate)/g, '');
 
-            // get click coordinates by event type
-            if (eventType === 'mousedown') {
-              x = e.pageX;
-              y = e.pageY;
-            } else if (eventType === 'touchstart') {
-              try {
-                var origEvent;
 
-                if (typeof e.changedTouches !== 'undefined') {
-                  origEvent = e.changedTouches[0];
-                } else {
-                  origEvent = e.originalEvent;
+<<<<<<< HEAD
+            var box = element[0].getBoundingClientRect();
+=======
+            var box = element.getBoundingClientRect();
+>>>>>>> a9310dd... Fixed center of el calculation
+
+            if ('angularRippleCenter' in attrs && attrs.angularRippleCenter !== 'false') {
+              x = box.left + ripple.offsetWidth / 2;
+              y = box.top + ripple.offsetHeight / 2;
+            } else {
+              // get click coordinates by event type
+              if (eventType === 'mousedown') {
+                x = e.pageX;
+                y = e.pageY;
+              } else if (eventType === 'touchstart') {
+                try {
+                  var origEvent;
+
+                  if (typeof e.changedTouches !== 'undefined') {
+                    origEvent = e.changedTouches[0];
+                  } else {
+                    origEvent = e.originalEvent;
+                  }
+
+                  x = origEvent.pageX;
+                  y = origEvent.pageY;
+                } catch (e) {
+                  // fall back to center of el
+                  x = box.left + ripple.offsetWidth / 2;
+                  y = box.top + ripple.offsetHeight / 2;
                 }
-
-                x = origEvent.pageX;
-                y = origEvent.pageY;
-              } catch (e) {
-                // fall back to center of el
-                x = ripple.offsetWidth / 2;
-                y = ripple.offsetHeight / 2;
               }
             }
 
             // set new ripple position by click or touch position
             function getPos(element) {
               var de = document.documentElement;
-              var box = element.getBoundingClientRect();
               var top = box.top + window.pageYOffset - de.clientTop;
               var left = box.left + window.pageXOffset - de.clientLeft;
               return { top: top, left: left };
