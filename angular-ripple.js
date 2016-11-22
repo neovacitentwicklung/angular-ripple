@@ -42,26 +42,31 @@
             // Remove animation effect
             ripple.className = ripple.className.replace(/ ?(animate)/g, '');
 
-            // get click coordinates by event type
-            if (eventType === 'mousedown') {
-              x = e.pageX;
-              y = e.pageY;
-            } else if (eventType === 'touchstart') {
-              try {
-                var origEvent;
+            if ('angularRippleCenter' in attrs && attrs.angularRippleCenter !== 'false') {
+              x = ripple.offsetWidth / 2;
+              y = ripple.offsetHeight / 2;
+            } else {
+              // get click coordinates by event type
+              if (eventType === 'mousedown') {
+                x = e.pageX;
+                y = e.pageY;
+              } else if (eventType === 'touchstart') {
+                try {
+                  var origEvent;
 
-                if (typeof e.changedTouches !== 'undefined') {
-                  origEvent = e.changedTouches[0];
-                } else {
-                  origEvent = e.originalEvent;
+                  if (typeof e.changedTouches !== 'undefined') {
+                    origEvent = e.changedTouches[0];
+                  } else {
+                    origEvent = e.originalEvent;
+                  }
+
+                  x = origEvent.pageX;
+                  y = origEvent.pageY;
+                } catch (e) {
+                  // fall back to center of el
+                  x = ripple.offsetWidth / 2;
+                  y = ripple.offsetHeight / 2;
                 }
-
-                x = origEvent.pageX;
-                y = origEvent.pageY;
-              } catch (e) {
-                // fall back to center of el
-                x = ripple.offsetWidth / 2;
-                y = ripple.offsetHeight / 2;
               }
             }
 
